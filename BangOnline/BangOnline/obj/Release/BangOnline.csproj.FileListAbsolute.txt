@@ -5,4 +5,3 @@ C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\B
 C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\bin\Release\Newtonsoft.Json.xml
 C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.dll
 C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.pdb
-C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.csprojResolveAssemblyReference.cache

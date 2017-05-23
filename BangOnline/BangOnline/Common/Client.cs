@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
-namespace BangOnline.Commom
+namespace BangOnline.Common
 {
     /// <summary>
     /// The Client class is all the information concerning the player

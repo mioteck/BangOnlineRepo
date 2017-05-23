@@ -1,4 +1,5 @@
-﻿using BangOnline.Commom;
+﻿using BangOnline.Cards;
+using BangOnline.Common;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -24,7 +25,9 @@ namespace BangServer
             waitingSaloon = new Thread(WaitingSaloon);
             listenMJ = new Thread(ListenMJ);
 
-            waitingSaloon.Start();
+            //waitingSaloon.Start();
+
+            InitializeCard();
         }
 
         #region SendMessage
@@ -141,5 +144,18 @@ namespace BangServer
             }
         }
         #endregion
+
+        static Deck<Card> InitializeCard()
+        {
+            Deck<Bang> bangs = ISerialize.Deserialize<Deck<Bang>>(@"C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangServer\BangServer\bin\Debug\_Datas\Bang.json");
+
+
+            return new Deck<Card>();
+        }
+
+        static void Initialize()
+        {
+
+        }
     }
 }

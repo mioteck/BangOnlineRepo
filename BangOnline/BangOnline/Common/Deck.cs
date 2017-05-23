@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BangOnline.Cards
+namespace BangOnline.Common
 {
     public class Deck<T> : List<T>
     {
@@ -39,6 +39,27 @@ namespace BangOnline.Cards
             T tmp = this[i1];
             this[i1] = this[i2];
             this[i2] = tmp;
+        }
+
+        public T PopFirstElement()
+        {
+            T element = this[0];
+            this.RemoveAt(0);
+            return element;
+        }
+
+        public Deck<T> PopFirstElement(int size)
+        {
+            Deck<T> elements = new Deck<T>();
+
+            for(int i = 0; i < size; i++)
+            {
+                elements.Add(this[i]);
+            }
+
+            RemoveRange(0, size);
+
+            return elements;
         }
     }
 }

@@ -15,6 +15,23 @@ public enum Couleur
     Trefle
 }
 
+public enum Value
+{
+    As,
+    Deux,
+    Trois,
+    Quatre,
+    Cinq,
+    Six,
+    Sept,
+    Huit,
+    Neuf,
+    Dix,
+    Valet,
+    Dame,
+    Roi    
+}
+
 public enum Role
 {
     Sherif,

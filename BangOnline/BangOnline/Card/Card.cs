@@ -4,11 +4,11 @@
     {
         public string nom;
         public Couleur couleur;
-        public int value;
+        public Value value;
         public Cible cible;
         public string desc;
 
-        public Card(string n, Couleur c, int v, Cible cc, string d)
+        public Card(string n, Couleur c, Value v, Cible cc, string d)
         {
             nom = n;
             couleur = c;

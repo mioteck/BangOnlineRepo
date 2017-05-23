@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Card\Card.cs" />
+    <Compile Include="Card\Character.cs" />
     <Compile Include="Card\Deck.cs" />
     <Compile Include="Card\Effect\Bang.cs" />
     <Compile Include="Card\Effect\Discard.cs" />
@@ -64,8 +65,11 @@
     <Compile Include="Card\Equipment\ModRange.cs" />
     <Compile Include="Card\Equipment\Stash.cs" />
     <Compile Include="Card\Equipment\Weapon.cs" />
+    <Compile Include="Commom\Client.cs" />
     <Compile Include="Commom\Enum.cs" />
+    <Compile Include="Commom\GameState.cs" />
     <Compile Include="Commom\IRunning.cs" />
+    <Compile Include="Commom\ISerialize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

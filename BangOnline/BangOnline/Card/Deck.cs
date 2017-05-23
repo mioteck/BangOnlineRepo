@@ -5,6 +5,9 @@ namespace BangOnline.Cards
 {
     public class Deck<T> : List<T>
     {
+        /// <summary>
+        /// Shuffle the list
+        /// </summary>
         public void Shuffle()
         {
             int length = this.Count;
@@ -26,6 +29,11 @@ namespace BangOnline.Cards
             }
         }
 
+        /// <summary>
+        /// Switch 2 elements
+        /// </summary>
+        /// <param name="i1">The first index</param>
+        /// <param name="i2">The second index</param>
         public void Switch(int i1, int i2)
         {
             T tmp = this[i1];

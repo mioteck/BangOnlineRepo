@@ -1,0 +1,8 @@
+c:\users\bousq\documents\visual studio 2015\Projects\BangOnline\BangOnline\bin\Debug\BangOnline.exe.config
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\bin\Debug\BangOnline.exe
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\bin\Debug\BangOnline.pdb
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\obj\Debug\BangOnline.csprojResolveAssemblyReference.cache
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\obj\Debug\BangOnline.exe
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\obj\Debug\BangOnline.pdb

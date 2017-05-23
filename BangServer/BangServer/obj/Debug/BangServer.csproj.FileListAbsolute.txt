@@ -1,0 +1,1 @@
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangServer\BangServer\bin\Debug\BangServer.exe.config

@@ -6,3 +6,6 @@ C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\bin\D
 C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\obj\Debug\BangOnline.csprojResolveAssemblyReference.cache
 C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\obj\Debug\BangOnline.exe
 C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnline\BangOnline\obj\Debug\BangOnline.pdb
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\bin\Debug\BangOnline.exe.config
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\obj\Debug\BangOnline.exe
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\obj\Debug\BangOnline.pdb

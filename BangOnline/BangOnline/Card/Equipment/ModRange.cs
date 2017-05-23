@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-class ModRange : Equipment
+﻿namespace BangOnline.Cards
 {
-    public ModRange(string n, Couleur c, int v, Cible cc, string d) : base(n, c, v, cc, d) { }
+    public class ModRange : Equipment
+    {
+        public ModRange(string n, Couleur c, int v, Cible cc, string d) : base(n, c, v, cc, d) { }
+    }
 }

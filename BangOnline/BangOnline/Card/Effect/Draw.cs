@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-
-class Draw : Effect, IRunning
+namespace BangOnline.Cards
 {
-    public Draw(string n, Couleur c, int v, Cible cc, string d, int p) : base(n, c, v, cc, d, p) { }
-
-    public void Run()
+    public class Draw : Effect, IRunning
     {
-        throw new NotImplementedException();
+        public Draw(string n, Couleur c, int v, Cible cc, string d, int p) : base(n, c, v, cc, d, p) { }
+
+        public void Run()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

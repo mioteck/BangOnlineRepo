@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-
-class Miss : Effect, IRunning
+namespace BangOnline.Cards
 {
-    public Miss(string n, Couleur c, int v, Cible cc, string d, int p) : base(n, c, v, cc, d, p) { }
-
-    public void Run()
+    public class Miss : Effect, IRunning
     {
-        throw new NotImplementedException();
+        public Miss(string n, Couleur c, int v, Cible cc, string d, int p) : base(n, c, v, cc, d, p) { }
+
+        public void Run()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -39,3 +39,17 @@ public enum Role
     HorsLaLoi,
     Renegat
 }
+
+public enum CardType
+{
+    Bang,
+    Discard,
+    Draw,
+    Duel,
+    Heal,
+    Miss,
+    Jail,
+    ModRange,
+    Stash,
+    Weapon
+}

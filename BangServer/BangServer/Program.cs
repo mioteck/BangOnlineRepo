@@ -25,9 +25,7 @@ namespace BangServer
             waitingSaloon = new Thread(WaitingSaloon);
             listenMJ = new Thread(ListenMJ);
 
-            //waitingSaloon.Start();
-
-            InitializeCard();
+            waitingSaloon.Start();
         }
 
         #region SendMessage
@@ -145,17 +143,81 @@ namespace BangServer
         }
         #endregion
 
-        static Deck<Card> InitializeCard()
+        static Deck<Card> InitializeCard() // A REVOIR
         {
-            Deck<Bang> bangs = ISerialize.Deserialize<Deck<Bang>>(@"C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangServer\BangServer\bin\Debug\_Datas\Bang.json");
+            List<CardRepartition> cardRepartition = ISerialize.Deserialize<List<CardRepartition>>(@"_Datas/Cards.json");
 
+            Deck<Card> cards = new Deck<Card>();
 
-            return new Deck<Card>();
+            Random rand = new Random();
+            foreach (CardRepartition CR in cardRepartition)
+            {
+                for (int i = 0; i < CR.number; i++)
+                {
+                    
+                    switch (CR.type)
+                    {
+                        case CardType.Bang:
+                            Bang b = new Bang("Bang", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.APorteeDeTire, "Enlève un point de vie à un joueur à porté de tir", -1);
+                            cards.Add(b);
+                            break;
+
+                        case CardType.Discard:
+                            Discard d = new Discard("Discard", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.SoiMeme, "Fait échouer un Bang", -1);
+                            cards.Add(d);
+                            break;
+
+                        case CardType.Draw:
+                            Draw dd = new Draw("Draw", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.SoiMeme, "Pioche 2 cartes", -1);
+                            cards.Add(dd);
+                            break;
+
+                        case CardType.Duel:
+                            Duel ddd = new Duel("Duel", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.NimporteQui, "Provoque un duel", -1);
+                            cards.Add(ddd);
+                            break;
+
+                        case CardType.Heal:
+                            Heal h = new Heal("Heal", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.NimporteQui, "Soigne un point de vie", -1);
+                            cards.Add(h);
+                            break;
+
+                        case CardType.Miss:
+                            Miss m = new Miss("Miss", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.SoiMeme, "Esquive un Bang", -1);
+                            cards.Add(m);
+                            break;
+
+                        case CardType.Jail:
+                            Jail j = new Jail("Jail", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.NimporteQui, "Emprisonne quelqu'un");
+                            cards.Add(j);
+                            break;
+
+                        case CardType.ModRange:
+                            ModRange mr = new ModRange("Mustang", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.SoiMeme, "Distance +1 pour les autres joueurs");
+                            cards.Add(mr);
+                            break;
+
+                        case CardType.Stash:
+                            Stash s = new Stash("Stash", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.SoiMeme, "Quand Bang reçu, piocher une carte, si coeur alors esquive");
+                            cards.Add(s);
+                            break;
+
+                        case CardType.Weapon:
+                            Weapon w = new Weapon("Pistoulet", (Couleur)rand.Next(0, 4), (Value)rand.Next(0, 13), Cible.SoiMeme, "Augmente la porté de 1");
+                            cards.Add(w);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+            }
+
+            cards.Shuffle();
+
+            return cards;
         }
 
-        static void Initialize()
-        {
-
-        }
     }
 }

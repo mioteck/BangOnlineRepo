@@ -5,3 +5,11 @@ C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\B
 C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\bin\Release\Newtonsoft.Json.xml
 C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.dll
 C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.pdb
+F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\BangOnline.dll.config
+F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\BangOnline.dll
+F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\BangOnline.pdb
+F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\Newtonsoft.Json.dll
+F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\Newtonsoft.Json.xml
+F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.csprojResolveAssemblyReference.cache
+F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.dll
+F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.pdb

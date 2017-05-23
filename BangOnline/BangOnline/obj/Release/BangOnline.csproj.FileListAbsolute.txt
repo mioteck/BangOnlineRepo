@@ -10,6 +10,5 @@ F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\BangOnlin
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\BangOnline.pdb
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\Newtonsoft.Json.dll
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\Newtonsoft.Json.xml
-F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.csprojResolveAssemblyReference.cache
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.dll
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.pdb

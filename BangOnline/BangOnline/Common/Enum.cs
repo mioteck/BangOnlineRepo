@@ -37,7 +37,8 @@ public enum Role
     Sherif,
     Adjudant,
     HorsLaLoi,
-    Renegat
+    Renegat,
+    None
 }
 
 public enum CardType

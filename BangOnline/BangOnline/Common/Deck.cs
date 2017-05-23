@@ -61,5 +61,29 @@ namespace BangOnline.Common
 
             return elements;
         }
+
+        public T GetRandomElement(bool deleteElement = false)
+        {
+            Random rand = new Random();
+
+            int index = rand.Next(0, Count-1);
+            T toReturn = this[index];
+            if (deleteElement)
+            {
+                Remove(toReturn);
+            }
+            return toReturn;
+        }
+
+        public T GetRandomElement(Random rand, bool deleteElement = false)
+        {
+            int index = rand.Next(0, Count-1);
+            T toReturn = this[index];
+            if (deleteElement)
+            {
+                Remove(toReturn);
+            }
+            return toReturn;
+        }
     }
 }

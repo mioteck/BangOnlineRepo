@@ -1,0 +1,66 @@
+[
+  {
+    "name": "El Gringo",
+    "maxLife": 3
+  },
+  {
+    "name": "Bart Cassidy",
+    "maxLife": 4
+  },
+  {
+    "name": "Calamity Janet",
+    "maxLife": 4
+  },
+  {
+    "name": "Sam le vautour",
+    "maxLife": 4
+  },
+  {
+    "name": "Black Jack",
+    "maxLife": 4
+  },
+  {
+    "name": "Willy le kid",
+    "maxLife": 4
+  },
+  {
+    "name": "Suzzy Lafayette",
+    "maxLife": 4
+  },
+  {
+    "name": "Kit Carlson",
+    "maxLife": 4
+  },
+  {
+    "name": "Perdo Ramirez",
+    "maxLife": 4
+  },
+  {
+    "name": "Jesse Jones",
+    "maxLife": 4
+  },
+  {
+    "name": "Paul Regret",
+    "maxLife": 3
+  },
+  {
+    "name": "Rose Doolan",
+    "maxLife": 4
+  },
+  {
+    "name": "Slab le flingueur",
+    "maxLife": 4
+  },
+  {
+    "name": "Sid Ketchum",
+    "maxLife": 4
+  },
+  {
+    "name": "Jourdonnais",
+    "maxLife": 4
+  },
+  {
+    "name": "Lucky Duke",
+    "maxLife": 4
+  }
+]

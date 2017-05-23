@@ -52,6 +52,8 @@ namespace BangOnline.Common
         /// </summary>
         public bool isAlive;
 
+        static int id = 0;
+
         public Client(TcpClient c)
         {
             tcpClient = c;
@@ -59,9 +61,25 @@ namespace BangOnline.Common
 
             IPEndPoint ipClient = (IPEndPoint)tcpClient.Client.RemoteEndPoint;
             ipAddr = ipClient.Address.ToString();
+
+            role = Role.None;
+
+            cards = new List<Card>();
+            equipments = new List<Equipment>();
         }
 
-        public void SetCards(List<Card> c)
+        public Client() // For test
+        {
+            role = Role.None;
+
+            cards = new List<Card>();
+            equipments = new List<Equipment>();
+
+            ID = id;
+            id++;
+        }
+
+        public void SetCards(Deck<Card> c)
         {
             cards.AddRange(c);
         }

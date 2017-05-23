@@ -16,8 +16,12 @@ namespace BangServer
         static Thread waitingSaloon;
         static Thread listenMJ;
 
+        static Random rand;
+
         static void Main(string[] args)
         {
+            rand = new Random();
+
             clients = new List<Client>();
 
             server = new TcpListener(IPAddress.Any, 1337);
@@ -83,22 +87,22 @@ namespace BangServer
         #region Saloon
         static void WaitingSaloon()
         {
-            while(true)
+            while (true)
             {
                 TcpClient TcpClient = server.AcceptTcpClient();
 
                 Client client = new Client(TcpClient);
                 bool isPresent = false;
 
-                foreach(Client c in clients)
+                foreach (Client c in clients)
                 {
-                    if(c.ipAddr == client.ipAddr)
+                    if (c.ipAddr == client.ipAddr)
                     {
                         isPresent = true;
                         break;
                     }
                 }
-                if(!isPresent)
+                if (!isPresent)
                 {
                     Console.WriteLine("Un joueur vient de se connecter : " + client.ipAddr);
                     client.ID = clients.Count;
@@ -112,10 +116,14 @@ namespace BangServer
                 if (clients.Count >= 2)
                 {
                     SendMessage(0, "Il y a 2 joueurs, voulez vous commencez la partie? (\run pour lancer la partie)");
-                    if(!listenMJ.IsAlive)
+                    if (!listenMJ.IsAlive)
                     {
                         listenMJ.Start();
                     }
+                }
+                if (clients.Count == 7)
+                {
+                    InitializeParty();
                 }
             }
         }
@@ -137,24 +145,26 @@ namespace BangServer
                 {
                     waitingSaloon.Join();
                     listenMJ.Join();
+
                     // LANCEMENT DE LA PARTIE : C'EST PARTIE BB
+                    InitializeParty();
                 }
             }
         }
         #endregion
 
+        #region Init Party
         static Deck<Card> InitializeCard() // A REVOIR
         {
             List<CardRepartition> cardRepartition = ISerialize.Deserialize<List<CardRepartition>>(@"_Datas/Cards.json");
 
             Deck<Card> cards = new Deck<Card>();
 
-            Random rand = new Random();
             foreach (CardRepartition CR in cardRepartition)
             {
                 for (int i = 0; i < CR.number; i++)
                 {
-                    
+
                     switch (CR.type)
                     {
                         case CardType.Bang:
@@ -218,6 +228,82 @@ namespace BangServer
 
             return cards;
         }
+
+        static void AssignRole(int numberOfPlayer, int sherif, int adjudant, int renegat, int horsLaLoi)
+        {
+            while (sherif != 0 || adjudant != 0 || renegat != 0 || horsLaLoi != 0)
+            {
+                int index = rand.Next(0, numberOfPlayer);
+                Client client = clients[index];
+                if (client.role == Role.None)
+                {
+                    if (sherif != 0)
+                    {
+                        client.role = Role.Sherif;
+                        client.character.maxLife++;
+                        sherif--;
+                    }
+                    else if (adjudant != 0)
+                    {
+                        client.role = Role.Adjudant;
+                        adjudant--;
+                    }
+                    else if (renegat != 0)
+                    {
+                        client.role = Role.Renegat;
+                        renegat--;
+                    }
+                    else if (horsLaLoi != 0)
+                    {
+                        client.role = Role.HorsLaLoi;
+                        horsLaLoi--;
+                    }
+                }
+            }
+        }
+
+        static void InitializeParty()
+        {
+            #region Initialization Card
+            Deck<Card> cards = InitializeCard();
+            #endregion
+
+            #region Assign Class
+            Deck<Character> characters = ISerialize.Deserialize<Deck<Character>>(@"_Datas\Characters.json");
+            foreach(Client client in clients)
+            {
+                client.character = characters.GetRandomElement(rand, true);
+            }
+            #endregion
+
+            #region Assign Role
+            int numberPlayer = clients.Count;
+            if (numberPlayer == 4)
+            {
+                AssignRole(numberPlayer, 1, 0, 1, 2);
+            }
+            else if (numberPlayer == 5)
+            {
+                AssignRole(numberPlayer, 1, 1, 1, 2);
+            }
+            else if (numberPlayer == 6)
+            {
+                AssignRole(numberPlayer, 1, 1, 1, 3);
+            }
+            else if (numberPlayer == 7)
+            {
+                AssignRole(numberPlayer, 1, 2, 1, 3);
+            }
+            #endregion
+
+            #region Assign Card
+            foreach (Client client in clients)
+            {
+                client.SetCards(cards.PopFirstElement(client.character.maxLife));
+            }
+            #endregion
+        }
+        #endregion
 
     }
 }

@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Card\Card.cs" />
     <Compile Include="Card\Character.cs" />
+    <Compile Include="Common\IArrayString.cs" />
     <Compile Include="Common\CardRepartition.cs" />
     <Compile Include="Common\Deck.cs" />
     <Compile Include="Card\Effect\Bang.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Common\Client.cs" />
     <Compile Include="Common\Enum.cs" />
     <Compile Include="Common\GameState.cs" />
+    <Compile Include="Common\IFormatter.cs" />
     <Compile Include="Common\IRunning.cs" />
     <Compile Include="Common\ISerialize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

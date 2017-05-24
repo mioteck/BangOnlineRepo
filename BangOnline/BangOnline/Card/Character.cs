@@ -23,6 +23,10 @@ namespace BangOnline.Cards
         /// The current life of the character
         /// </summary>
         public int currentLife;
+        /// <summary>
+        /// The description of the character
+        /// </summary>
+        public string desc;
 
         public void SetToMaxLife()
         {

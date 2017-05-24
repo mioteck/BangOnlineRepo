@@ -12,3 +12,4 @@ F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\Newtonsof
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\bin\Release\Newtonsoft.Json.xml
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.dll
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.pdb
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangOnline\BangOnline\obj\Release\BangOnline.csprojResolveAssemblyReference.cache

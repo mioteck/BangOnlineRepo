@@ -1,6 +1,8 @@
-﻿namespace BangOnline.Cards
+﻿using BangOnline.Common;
+
+namespace BangOnline.Cards
 {
-    public class Card
+    public class Card: IArrayString
     {
         public string nom;
         public Couleur couleur;
@@ -17,9 +19,30 @@
             desc = d;
         }
 
-        public override string ToString()
+        public string[] BaseInfo()
         {
-            return "Nom : " + nom + "\nCouleur : " + couleur.ToString() + "\nValeur : " + value + "\nCible : " + cible.ToString() + "\nDescription : " + desc;
+            string[] data = new string[4];
+
+            data[0] = "Nom";
+            data[1] = "Couleur";
+            data[2] = "Valeur";
+            data[3] = "Cible";
+            //data[4] = "Description";
+
+            return data;
+        }
+
+        public string[] ToArrayString()
+        {
+            string[] data = new string[4];
+
+            data[0] = nom;
+            data[1] = couleur.ToString();
+            data[2] = value.ToString();
+            data[3] = cible.ToString();
+            //data[4] = desc;
+
+            return data;
         }
     }
 }

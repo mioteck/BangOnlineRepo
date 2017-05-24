@@ -29,7 +29,21 @@ namespace BangServer
             waitingSaloon = new Thread(WaitingSaloon);
             listenMJ = new Thread(ListenMJ);
 
-            waitingSaloon.Start();
+            //waitingSaloon.Start(); // For build
+
+            /***** Test *****/
+
+            clients.Add(new Client());
+            clients.Add(new Client());
+            clients.Add(new Client());
+            clients.Add(new Client());
+            clients.Add(new Client());
+            clients.Add(new Client());
+            clients.Add(new Client());
+
+            InitializeParty();
+
+            /*** END TEST ***/
         }
 
         #region SendMessage
@@ -259,6 +273,7 @@ namespace BangServer
                         horsLaLoi--;
                     }
                 }
+                client.character.SetToMaxLife();
             }
         }
 
@@ -302,6 +317,13 @@ namespace BangServer
                 client.SetCards(cards.PopFirstElement(client.character.maxLife));
             }
             #endregion
+
+            #region Create GameState
+
+            #endregion
+
+            Console.WriteLine(IFormatter.Formating(clients[0].cards));
+            Console.ReadKey();
         }
         #endregion
 

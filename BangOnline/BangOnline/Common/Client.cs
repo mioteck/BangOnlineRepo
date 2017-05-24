@@ -8,7 +8,7 @@ namespace BangOnline.Common
     /// <summary>
     /// The Client class is all the information concerning the player
     /// </summary>
-    public class Client
+    public class Client : IArrayString
     {
         /// <summary>
         /// The ID of the player
@@ -66,6 +66,13 @@ namespace BangOnline.Common
 
             cards = new List<Card>();
             equipments = new List<Equipment>();
+
+            isAlive = true;
+
+            ID = id;
+            id++;
+
+            portee = 1;
         }
 
         public Client() // For test
@@ -77,6 +84,10 @@ namespace BangOnline.Common
 
             ID = id;
             id++;
+
+            isAlive = true;
+
+            portee = 1;
         }
 
         public void SetCards(Deck<Card> c)
@@ -99,6 +110,7 @@ namespace BangOnline.Common
             return result;
         }
 
+        #region Stream
         public void SendMessage(string message)
         {
             byte[] bytesToSend = ISerialize.Serialize(message);
@@ -119,6 +131,37 @@ namespace BangOnline.Common
             int result = stream.Read(bytes, 0, bufferSize);
             if (result == -1) return new byte[0];
             return bytes;
+        }
+        #endregion
+
+        public string[] BaseInfo()
+        {
+            string[] data = new string[7];
+
+            data[0] = "ID";
+            data[1] = "Nom";
+            data[2] = "Vie maximum";
+            data[3] = "Vie courante";
+            data[4] = "Nombre de carte";
+            data[5] = "Portée";
+            data[6] = "Est vivant ?";
+
+            return data;
+        }
+
+        public string[] ToArrayString()
+        {
+            string[] data = new string[7];
+
+            data[0] = ID.ToString();
+            data[1] = character.name;
+            data[2] = character.maxLife.ToString();
+            data[3] = character.currentLife.ToString();
+            data[4] = cards.Count.ToString();
+            data[5] = portee.ToString();
+            data[6] = isAlive ? "Vivant" : "Mort";
+
+            return data;
         }
     }
 }

@@ -41,14 +41,26 @@ namespace BangOnline.Common
             this[i2] = tmp;
         }
 
-        public T PopFirstElement()
+        /// <summary>
+        /// Return the first element and it can be deleted
+        /// </summary>
+        /// /// <param name="deleteElement">Delete the element ?</param>
+        public T PopFirstElement(bool deleteElement = false)
         {
             T element = this[0];
-            this.RemoveAt(0);
+            if (deleteElement)
+            {
+                this.RemoveAt(0);
+            }
             return element;
         }
 
-        public Deck<T> PopFirstElement(int size)
+        /// <summary>
+        /// Return the x first element and they can be deleted
+        /// </summary>
+        /// <param name="size">The number of element to return</param>
+        /// /// <param name="deleteElement">Delete elements ?</param>
+        public Deck<T> PopFirstElement(int size, bool deleteElement = false)
         {
             Deck<T> elements = new Deck<T>();
 
@@ -56,12 +68,17 @@ namespace BangOnline.Common
             {
                 elements.Add(this[i]);
             }
-
-            RemoveRange(0, size);
-
+            if (deleteElement)
+            {
+                RemoveRange(0, size);
+            }
             return elements;
         }
 
+        /// <summary>
+        /// Return a random element and it can be deleted
+        /// </summary>
+        /// <param name="deleteElement">Delete the element ?</param>
         public T GetRandomElement(bool deleteElement = false)
         {
             Random rand = new Random();
@@ -75,6 +92,25 @@ namespace BangOnline.Common
             return toReturn;
         }
 
+        /// <summary>
+        /// Return the element at index and it can be deleted
+        /// </summary>
+        /// /// <param name="deleteElement">Delete the element ?</param>
+        public T PopElement(int index, bool deleteElement = false)
+        {
+            T element = this[index];
+            if (deleteElement)
+            {
+                this.RemoveAt(index);
+            }
+            return element;
+        }
+
+        /// <summary>
+        /// Return a random element and it can be deleted
+        /// </summary>
+        /// <param name="rand">The random variable to use</param>
+        /// <param name="deleteElement">Delete the element ?</param>
         public T GetRandomElement(Random rand, bool deleteElement = false)
         {
             int index = rand.Next(0, Count-1);

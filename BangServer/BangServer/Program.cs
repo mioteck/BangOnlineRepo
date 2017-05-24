@@ -10,7 +10,7 @@ namespace BangServer
 {
     class Program
     {
-        static List<Client> clients;
+        static Deck<Client> clients;
         static TcpListener server;
 
         static Thread waitingSaloon;
@@ -18,11 +18,13 @@ namespace BangServer
 
         static Random rand;
 
+        static GameState gameState;
+
         static void Main(string[] args)
         {
             rand = new Random();
 
-            clients = new List<Client>();
+            clients = new Deck<Client>();
 
             server = new TcpListener(IPAddress.Any, 1337);
 
@@ -49,9 +51,10 @@ namespace BangServer
         #region SendMessage
         static void SendMessage(int ID, string message)
         {
-            if (clients.Count < ID)
+            
+            if (!clients.Contains(ID))
             {
-                Console.WriteLine("!!! Il n'y a aucun joueur de connecté !!!");
+                Console.WriteLine("!!! Le joueur demandé n'existe pas !!!");
                 return;
             }
             Client client = clients[ID];
@@ -61,9 +64,9 @@ namespace BangServer
 
         static void SendMessage(int ID, object obj)
         {
-            if (clients.Count < ID)
+            if (!clients.Contains(ID))
             {
-                Console.WriteLine("!!! Il n'y a aucun joueur de connecté !!!");
+                Console.WriteLine("!!! Le joueur demandé n'existe pas !!!");
                 return;
             }
             Client client = clients[ID];
@@ -255,6 +258,7 @@ namespace BangServer
                     {
                         client.role = Role.Sherif;
                         client.character.maxLife++;
+                        client.isRoleVisible = true;
                         sherif--;
                     }
                     else if (adjudant != 0)
@@ -319,11 +323,12 @@ namespace BangServer
             #endregion
 
             #region Create GameState
-
+            gameState = new GameState(clients, cards);
             #endregion
 
-            Console.WriteLine(IFormatter.Formating(clients[0].cards));
-            Console.ReadKey();
+            #region Send GameState to all players
+            //SendMessageToAll(gameState);
+            #endregion
         }
         #endregion
 

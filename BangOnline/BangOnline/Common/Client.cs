@@ -38,11 +38,11 @@ namespace BangOnline.Common
         /// <summary>
         /// The list of cards owned by the player
         /// </summary>
-        public List<Card> cards;
+        public Deck<Card> cards;
         /// <summary>
         /// The list of the equipment equiped
         /// </summary>
-        public List<Equipment> equipments;
+        public Deck<Equipment> equipments;
         /// <summary>
         /// The shooting range
         /// </summary>
@@ -51,6 +51,8 @@ namespace BangOnline.Common
         /// Show if the player is alive or not
         /// </summary>
         public bool isAlive;
+
+        public bool isRoleVisible;
 
         static int id = 0;
 
@@ -64,10 +66,11 @@ namespace BangOnline.Common
 
             role = Role.None;
 
-            cards = new List<Card>();
-            equipments = new List<Equipment>();
+            cards = new Deck<Card>();
+            equipments = new Deck<Equipment>();
 
             isAlive = true;
+            isRoleVisible = false;
 
             ID = id;
             id++;
@@ -79,8 +82,8 @@ namespace BangOnline.Common
         {
             role = Role.None;
 
-            cards = new List<Card>();
-            equipments = new List<Equipment>();
+            cards = new Deck<Card>();
+            equipments = new Deck<Equipment>();
 
             ID = id;
             id++;
@@ -90,6 +93,7 @@ namespace BangOnline.Common
             portee = 1;
         }
 
+        #region GamePlay
         public void SetCards(Deck<Card> c)
         {
             cards.AddRange(c);
@@ -109,6 +113,7 @@ namespace BangOnline.Common
             }
             return result;
         }
+        #endregion
 
         #region Stream
         public void SendMessage(string message)
@@ -134,34 +139,58 @@ namespace BangOnline.Common
         }
         #endregion
 
+        #region IArrayString
         public string[] BaseInfo()
         {
-            string[] data = new string[7];
+            string[] data = new string[8];
 
             data[0] = "ID";
             data[1] = "Nom";
-            data[2] = "Vie maximum";
-            data[3] = "Vie courante";
-            data[4] = "Nombre de carte";
-            data[5] = "Portée";
-            data[6] = "Est vivant ?";
+            data[2] = "Role";
+            data[3] = "Vie maximum";
+            data[4] = "Vie courante";
+            data[5] = "Nombre de carte";
+            data[6] = "Portée";
+            data[7] = "Est vivant ?";
 
             return data;
         }
 
-        public string[] ToArrayString()
+        public string[] ToArrayString(bool hideInformation = true)
         {
-            string[] data = new string[7];
+            string[] data = new string[8];
 
             data[0] = ID.ToString();
             data[1] = character.name;
-            data[2] = character.maxLife.ToString();
-            data[3] = character.currentLife.ToString();
-            data[4] = cards.Count.ToString();
-            data[5] = portee.ToString();
-            data[6] = isAlive ? "Vivant" : "Mort";
+            data[2] = hideInformation?(isRoleVisible ? role.ToString() : "?????") : role.ToString();
+            data[3] = character.maxLife.ToString();
+            data[4] = character.currentLife.ToString();
+            data[5] = cards.Count.ToString();
+            data[6] = portee.ToString();
+            data[7] = isAlive ? "Vivant" : "Mort";
 
             return data;
+        }
+        #endregion
+    }
+
+    public static class ClientExtend
+    {
+        /// <summary>
+        /// Return true if the ID is in the deck
+        /// </summary>
+        /// <param name="id">Id to search in deck</param>
+        /// <returns></returns>
+        public static bool Contains(this Deck<Client> d, int id)
+        {
+            foreach(Client c in d)
+            {
+                if(c.ID == id)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

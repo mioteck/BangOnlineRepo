@@ -60,7 +60,7 @@ namespace BangOnline.Common
             return output;
         }
 
-        public static string Formating<T>(List<T> list) where T : IArrayString
+        public static string Formating<T>(List<T> list, bool hideInformation = true) where T : IArrayString
         {
             IFormatter formatter = new IFormatter();
 
@@ -70,7 +70,7 @@ namespace BangOnline.Common
 
             foreach (T c in list)
             {
-                formatter.AddObject(c.ToArrayString());
+                formatter.AddObject(c.ToArrayString(hideInformation));
             }
             return formatter.toFormat();
         }

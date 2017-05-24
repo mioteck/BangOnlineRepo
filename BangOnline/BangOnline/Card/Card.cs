@@ -32,7 +32,7 @@ namespace BangOnline.Cards
             return data;
         }
 
-        public string[] ToArrayString()
+        public string[] ToArrayString(bool hideInformation = true)
         {
             string[] data = new string[4];
 

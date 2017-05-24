@@ -8,7 +8,7 @@ namespace BangOnline.Common
 {
     public interface IArrayString
     {
-        string[] ToArrayString();
+        string[] ToArrayString(bool hideInformation = true);
         string[] BaseInfo();
     }
 }

@@ -119,7 +119,7 @@ namespace BangOnline.Common
         public void SendMessage(string message)
         {
             byte[] bytesToSend = ISerialize.Serialize(message);
-
+            if (stream == null) return;
             stream.Write(bytesToSend, 0, bytesToSend.Length);
         }
 
@@ -127,6 +127,7 @@ namespace BangOnline.Common
         {
             byte[] bytesToSend = ISerialize.Serialize(obj);
 
+            if (stream == null) return;
             stream.Write(bytesToSend, 0, bytesToSend.Length);
         }
 
@@ -191,6 +192,18 @@ namespace BangOnline.Common
                 }
             }
             return false;
+        }
+
+        public static int GetIDByIp(this Deck<Client> d ,string ip)
+        {
+            foreach(Client c in d)
+            {
+                if(c.ipAddr == ip)
+                {
+                    return c.ID;
+                }
+            }
+            return -1;
         }
     }
 }

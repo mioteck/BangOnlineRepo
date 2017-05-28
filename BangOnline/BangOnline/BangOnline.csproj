@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Card\Card.cs" />
     <Compile Include="Card\Character.cs" />
+    <Compile Include="Common\DataToSend.cs" />
     <Compile Include="Common\IArrayString.cs" />
     <Compile Include="Common\CardRepartition.cs" />
     <Compile Include="Common\Deck.cs" />

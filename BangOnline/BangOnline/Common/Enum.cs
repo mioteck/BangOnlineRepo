@@ -54,3 +54,11 @@ public enum CardType
     Stash,
     Weapon
 }
+
+public enum Command
+{
+    StringToDraw,
+    NbPlayer,
+    GetCards,
+    Quit
+}

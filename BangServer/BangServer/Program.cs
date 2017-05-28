@@ -20,6 +20,8 @@ namespace BangServer
 
         static GameState gameState;
 
+        static string myIP;
+        
         static void Main(string[] args)
         {
             rand = new Random();
@@ -28,17 +30,18 @@ namespace BangServer
 
             server = new TcpListener(IPAddress.Any, 1337);
 
+            myIP = DataToSend.GetLocalIPAddress();
+
+            server.Start();
+            Console.WriteLine("Server : ON\nIpAdresse : " + myIP + "\nPort : " + ((IPEndPoint)server.LocalEndpoint).Port.ToString());
+
             waitingSaloon = new Thread(WaitingSaloon);
             listenMJ = new Thread(ListenMJ);
 
-            //waitingSaloon.Start(); // For build
+            waitingSaloon.Start(); // For build
 
             /***** Test *****/
 
-            clients.Add(new Client());
-            clients.Add(new Client());
-            clients.Add(new Client());
-            clients.Add(new Client());
             clients.Add(new Client());
             clients.Add(new Client());
             clients.Add(new Client());
@@ -127,16 +130,12 @@ namespace BangServer
                 }
                 else
                 {
-                    client.SendMessage("Vous êtes déjà connecté au serveur !");
+                    client.SendMessage(new DataToSend(myIP, Command.StringToDraw, "Vous êtes déjà connecté au serveur !"));
                 }
 
-                if (clients.Count >= 2)
+                if (clients.Count >= 4 && !listenMJ.IsAlive)
                 {
-                    SendMessage(0, "Il y a 2 joueurs, voulez vous commencez la partie? (\run pour lancer la partie)");
-                    if (!listenMJ.IsAlive)
-                    {
-                        listenMJ.Start();
-                    }
+                    listenMJ.Start();
                 }
                 if (clients.Count == 7)
                 {
@@ -152,23 +151,45 @@ namespace BangServer
                 Console.WriteLine("!!! Il n'y a aucun joueur de connecté !!!");
                 return;
             }
-            Client client = clients[0];
+            //Client client = clients[0]; // FOR BUILD
+            Client client = clients[clients.Count - 1]; // FOR TEST
+            Console.WriteLine("Actually listenning the client " + client.ID);
+            SendMessage(client.ID, new DataToSend(myIP, Command.StringToDraw, "Il y a plusieurs joueurs de connecté"));
+            //InitializeParty(); //HERE FOR TEST? TO REMOVE FOR BUILD
             while (true)
             {
-                byte[] bytes = client.ReceiveMessage(64); // Peut être source de problème à check
+                byte[] bytes = client.ReceiveMessage(DataToSend.bufferSize); // Peut être source de problème à check
                 if (bytes.Length == 0) continue;
-                string message = ISerialize.DeserializeString(bytes);
-                if (message == "\run")
-                {
-                    waitingSaloon.Join();
-                    listenMJ.Join();
-
-                    // LANCEMENT DE LA PARTIE : C'EST PARTIE BB
-                    InitializeParty();
-                }
+                DataToSend data = (DataToSend)ISerialize.Deserialize(bytes);
+                Dispatcher(data);
             }
         }
         #endregion
+
+        static void Dispatcher(DataToSend data)
+        {
+            int clientID = clients.GetIDByIp(data.ipAddr);
+            if (data.command == Command.NbPlayer)
+            {
+                SendMessage(clientID, new DataToSend(myIP, Command.NbPlayer, clients.Count));
+            }
+            else if(data.command == Command.GetCards)
+            {
+                
+                SendMessage(clientID, new DataToSend(myIP, Command.StringToDraw, gameState.GetCards(clientID)));
+            }
+            else if(data.command == Command.Quit)
+            {
+                SendMessage(clientID, new DataToSend(myIP, Command.Quit, "Vous avez quitté la partie !"));
+                if (listenMJ.IsAlive)
+                    listenMJ.Abort();
+                clients.RemoveAt(clientID);
+                if (!listenMJ.IsAlive)
+                    listenMJ.Start();
+
+                //SendMessageToAll("Le client " + clientID + " vient de quitter la partie");
+            }
+        }
 
         #region Init Party
         static Deck<Card> InitializeCard() // A REVOIR

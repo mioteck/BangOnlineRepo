@@ -1,5 +1,6 @@
 ﻿using BangOnline.Cards;
 using BangOnline.Common;
+using System;
 using System.Collections.Generic;
 
 namespace BangOnline.Common
@@ -110,15 +111,18 @@ namespace BangOnline.Common
             client.Add(clients[id]);
             return IFormatter.Formating(client, idRequest != id);
         }
-        #endregion
 
-        #region Stream
-        public void SendMessageToAll(object obj)
+        public string GetCardDescription(int id, int index)
         {
-            foreach(Client c in clients)
-            {
-                c.SendMessage(obj);
-            }
+            return clients[id].cards[index].GetDescription();
+        }
+
+        public string GetCards(int id)
+        {
+            Deck<Card> cards = clients[id].cards;
+            if (cards.Count == 0)
+                return "Vous ne possedez aucune carte !";
+            return IFormatter.Formating(cards);
         }
         #endregion
     }

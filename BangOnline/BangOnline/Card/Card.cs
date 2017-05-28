@@ -44,5 +44,10 @@ namespace BangOnline.Cards
 
             return data;
         }
+
+        public string GetDescription()
+        {
+            return desc;
+        }
     }
 }

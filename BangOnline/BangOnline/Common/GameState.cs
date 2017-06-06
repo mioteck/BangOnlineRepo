@@ -2,6 +2,7 @@
 using BangOnline.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BangOnline.Common
 {
@@ -34,6 +35,14 @@ namespace BangOnline.Common
             get
             {
                 return _turn;
+            }
+        }
+
+        public Client currentPlayer
+        {
+            get
+            {
+                return clients[_indexPlayerTurn];
             }
         }
 
@@ -99,6 +108,72 @@ namespace BangOnline.Common
             return _indexPlayerTurn;
         }
 
+        public Role CheckEndGame()
+        {
+            Client sherif = clients[_indexSherif];
+
+            IEnumerable<Client> adjudants = clients.Where(x => x.role == Role.Adjudant);
+
+            IEnumerable<Client> renegats = clients.Where(x => x.role == Role.Renegat);
+
+            IEnumerable<Client> horslaloi = clients.Where(x => x.role == Role.HorsLaLoi);
+
+            // Victoire sherif
+            bool isVictorySherif = true;
+            foreach(Client c in renegats)
+            {
+                if(c.isAlive)
+                {
+                    isVictorySherif = false;
+                }
+            }
+            foreach(Client c in horslaloi)
+            {
+                if(c.isAlive)
+                {
+                    isVictorySherif = false;
+                }
+            }
+            if(isVictorySherif && sherif.isAlive)
+            {
+                return Role.Sherif;
+            }
+
+            // Victoire Renegat
+            bool isVictoryRenegat = true;
+            if(sherif.isAlive)
+            {
+                isVictoryRenegat = false;
+            }
+            foreach(Client c in adjudants)
+            {
+                if(c.isAlive)
+                {
+                    isVictoryRenegat = false;
+                }
+            }
+            foreach(Client c in horslaloi)
+            {
+                if(c.isAlive)
+                {
+                    isVictoryRenegat = false;
+                }
+            }
+            if(isVictoryRenegat && horslaloi.Where(x => x.isAlive == true).Count() >= 1)
+            {
+                return Role.Renegat;
+            }
+
+            // Victoire Hors la loi
+            if(!sherif.isAlive && horslaloi.Where(x => x.isAlive == true).Count() >= 1)
+            {
+                return Role.HorsLaLoi;
+            }
+
+            return Role.None;
+        }
+
+
         #region Infos
         public string GetPlayersInfo()
         {
@@ -123,6 +198,17 @@ namespace BangOnline.Common
             if (cards.Count == 0)
                 return "Vous ne possedez aucune carte !";
             return IFormatter.Formating(cards);
+        }
+
+        public List<int> GetIndexByRole(Role r) // int or list<int>
+        {
+            List<int> indexes = new List<int>();
+            foreach(Client c in clients)
+            {
+                if (c.role == r)
+                    indexes.Add(c.ID);
+            }
+            return indexes;
         }
         #endregion
     }

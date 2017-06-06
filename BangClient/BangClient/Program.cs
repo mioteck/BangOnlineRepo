@@ -38,7 +38,14 @@ namespace BangClient
             sendData.Start();
         }
 
-        #region Stream
+        static void CloseStream()
+        {
+            sendData.Abort();
+            waitingData.Abort();
+            stream.Close();
+            client.Close();
+        }
+
         static void SendData()
         {
             while(true)
@@ -48,16 +55,6 @@ namespace BangClient
                 DispatcherSend(command);
             }
         }
-
-        static void CloseStream()
-        {
-            sendData.Abort();
-            waitingData.Abort();
-            stream.Close();
-            client.Close();
-        }
-
-        #endregion
 
         static void WaitingData()
         {
@@ -93,17 +90,53 @@ namespace BangClient
 
         static void DispatcherSend(string command)
         {
-            if(command == @"\nbPlayer")
+            if (command == @"\nbPlayer")
             {
                 DataToSend.SendData(myIpAdress, Command.NbPlayer, null, stream);
             }
-            else if(command == @"\GetCards")
+            else if (command == @"\GetCards")
             {
                 DataToSend.SendData(myIpAdress, Command.GetCards, null, stream);
             }
-            else if(command == @"\Quit")
+            else if (command == @"\Quit")
             {
                 DataToSend.SendData(myIpAdress, Command.Quit, null, stream);
+            }
+            else if (command == @"\EndTurn")
+            {
+                DataToSend.SendData(myIpAdress, Command.EndTurn, null, stream);
+            }
+            else if (command.Contains(@"\PlayCard"))
+            {
+                string[] split = command.Split(' ');
+                int indexCard = -1;
+                bool isOk = int.TryParse(split[1], out indexCard);
+                if (isOk)
+                {
+                    DataToSend.SendData(myIpAdress, Command.PlayCard, indexCard, stream);
+                }
+                else
+                {
+                    Console.WriteLine("Erreur dans la commande !");
+                }
+            }
+            else if (command == @"\PlayersInfo")
+            {
+                DataToSend.SendData(myIpAdress, Command.PlayersInfo, null, stream);
+            }
+            else if (command.Contains(@"\PlayerInfo"))
+            {
+                string[] split = command.Split(' ');
+                int indexPlayer = -1;
+                bool isOk = int.TryParse(split[1], out indexPlayer);
+                if (isOk)
+                {
+                    DataToSend.SendData(myIpAdress, Command.PlayerInfo, indexPlayer, stream);
+                }
+                else
+                {
+                    Console.WriteLine("Erreur dans la commande !");
+                }
             }
             else
             {

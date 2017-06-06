@@ -9,3 +9,12 @@ F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangClient\BangClient\bin\Debug\Newtonsoft.
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangClient\BangClient\obj\Debug\BangClient.exe
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangClient\BangClient\obj\Debug\BangClient.pdb
 F:\4A_3DJV\ProgReseau\BangOnlineRepo\BangClient\BangClient\obj\Debug\BangClient.csprojResolveAssemblyReference.cache
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangClient\BangClient\obj\Debug\BangClient.exe
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangClient\BangClient\obj\Debug\BangClient.pdb
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangClient\BangClient\bin\Debug\BangClient.exe
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangClient\BangClient\bin\Debug\BangClient.pdb
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangClient\BangClient\bin\Debug\BangOnline.dll
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangClient\BangClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangClient\BangClient\bin\Debug\BangOnline.pdb
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangClient\BangClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Bousq\Documents\Visual Studio 2015\Projects\BangOnlineRepo\BangClient\BangClient\obj\Debug\BangClient.csprojResolveAssemblyReference.cache

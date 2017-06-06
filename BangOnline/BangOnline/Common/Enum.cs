@@ -60,5 +60,9 @@ public enum Command
     StringToDraw,
     NbPlayer,
     GetCards,
-    Quit
+    Quit,
+    EndTurn,
+    PlayCard,
+    PlayersInfo,
+    PlayerInfo
 }

@@ -2,6 +2,7 @@
 using BangOnline.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -15,6 +16,7 @@ namespace BangServer
 
         static Thread waitingSaloon;
         static Thread listenMJ;
+        static Thread gameLoop;
 
         static Random rand;
 
@@ -52,19 +54,6 @@ namespace BangServer
         }
 
         #region SendMessage
-        static void SendMessage(int ID, string message)
-        {
-            
-            if (!clients.Contains(ID))
-            {
-                Console.WriteLine("!!! Le joueur demandé n'existe pas !!!");
-                return;
-            }
-            Client client = clients[ID];
-
-            client.SendMessage(message);
-        }
-
         static void SendMessage(int ID, object obj)
         {
             if (!clients.Contains(ID))
@@ -77,16 +66,16 @@ namespace BangServer
             client.SendMessage(obj);
         }
 
-        static void SendMessageToAll(string message)
+        static void SendMessage(IEnumerable<Client> Cs, object obj)
         {
-            if (clients.Count == 0)
+            if (Cs.Count() == 0)
             {
-                Console.WriteLine("!!! Il n'y a aucun joueur de connecté !!!");
+                Console.WriteLine("!!! Le joueur demandé n'existe pas !!!");
                 return;
             }
-            foreach (Client client in clients)
+            foreach(Client c in Cs)
             {
-                client.SendMessage(message);
+                c.SendMessage(obj);
             }
         }
 
@@ -187,7 +176,23 @@ namespace BangServer
                 if (!listenMJ.IsAlive)
                     listenMJ.Start();
 
-                //SendMessageToAll("Le client " + clientID + " vient de quitter la partie");
+                //SendMessageToAll("Le client " + clientID + " vient de quitter la partie"); // To uncomment for build
+            }
+            else if (data.command == Command.EndTurn)
+            {
+                gameState.NextPlayer();
+            }
+            else if (data.command == Command.PlayCard)
+            {
+                int indexCard = (int)data.data;
+            }
+            else if(data.command == Command.PlayerInfo)
+            {
+                SendMessage(clientID, new DataToSend(myIP, Command.StringToDraw, gameState.GetPlayerInfo(clientID, (int)data.data)));
+            }
+            else if(data.command == Command.PlayersInfo)
+            {
+                SendMessage(clientID, new DataToSend(myIP, Command.StringToDraw, gameState.GetPlayersInfo()));
             }
         }
 
@@ -350,8 +355,61 @@ namespace BangServer
             #region Send GameState to all players
             //SendMessageToAll(gameState);
             #endregion
+
+            #region Start GameLoop
+            gameLoop = new Thread(GameLoop);
+            gameLoop.Start();
+            #endregion
         }
         #endregion
 
+        static void GameLoop()
+        {
+            while(true)
+            {
+                #region CheckEndGame
+                Role winner = gameState.CheckEndGame();
+                if(winner != Role.None)
+                {
+                    Client sherif = clients[gameState.IndexSherif];
+
+                    IEnumerable<Client> adjudants = clients.Where(x => x.role == Role.Adjudant);
+
+                    IEnumerable<Client> renegats = clients.Where(x => x.role == Role.Renegat);
+
+                    IEnumerable<Client> horslaloi = clients.Where(x => x.role == Role.HorsLaLoi);
+
+                    if(winner == Role.Sherif)
+                    {
+                        SendMessageToAll(new DataToSend(myIP, Command.StringToDraw, "La partie est finie !"));
+                        SendMessage(clients.Where(x => x.role == Role.Sherif || x.role == Role.Adjudant), "Vous avez gagnés la partie !");
+                        SendMessage(clients.Where(x => x.role == Role.HorsLaLoi || x.role == Role.Renegat), "Vous avez perdus la partie !");
+                    }
+                    else if(winner == Role.Renegat)
+                    {
+                        SendMessageToAll(new DataToSend(myIP, Command.StringToDraw, "La partie est finie !"));
+                        SendMessage(clients.Where(x => x.role == Role.Renegat), "Vous avez gagnés la partie !");
+                        SendMessage(clients.Where(x => x.role == Role.HorsLaLoi || x.role == Role.Sherif || x.role == Role.Adjudant), "Vous avez perdus la partie !");
+                    }
+                    else if(winner == Role.HorsLaLoi)
+                    {
+                        SendMessageToAll(new DataToSend(myIP, Command.StringToDraw, "La partie est finie !"));
+                        SendMessage(clients.Where(x => x.role == Role.HorsLaLoi), "Vous avez gagnés la partie !");
+                        SendMessage(clients.Where(x => x.role == Role.Renegat || x.role == Role.Sherif || x.role == Role.Adjudant), "Vous avez perdus la partie !");
+                    }
+
+                    gameLoop.Abort();
+                }
+                #endregion
+
+                Client currentPlayer = gameState.currentPlayer;
+                byte[] bytes = currentPlayer.ReceiveMessage(DataToSend.bufferSize);
+                if(bytes.Length == 0)
+                {
+                    continue;
+                }
+                Dispatcher((DataToSend)ISerialize.Deserialize(bytes));
+            }
+        }
     }
 }

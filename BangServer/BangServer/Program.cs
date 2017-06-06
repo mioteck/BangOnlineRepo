@@ -155,7 +155,7 @@ namespace BangServer
             Client client = clients[clients.Count - 1]; // FOR TEST
             Console.WriteLine("Actually listenning the client " + client.ID);
             SendMessage(client.ID, new DataToSend(myIP, Command.StringToDraw, "Il y a plusieurs joueurs de connecté"));
-            //InitializeParty(); //HERE FOR TEST? TO REMOVE FOR BUILD
+            InitializeParty(); //HERE FOR TEST? TO REMOVE FOR BUILD
             while (true)
             {
                 byte[] bytes = client.ReceiveMessage(DataToSend.bufferSize); // Peut être source de problème à check

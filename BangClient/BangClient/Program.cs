@@ -23,7 +23,9 @@ namespace BangClient
              int portToConnect = int.Parse(Console.ReadLine());
 
              client = new TcpClient(ipToConnect, portToConnect);*/
-            client = new TcpClient("192.168.1.68", 1337);
+            //client = new TcpClient("192.168.1.68", 1337);
+            client = new TcpClient("10.33.3.209", 1337);
+
             stream = client.GetStream();
 
 

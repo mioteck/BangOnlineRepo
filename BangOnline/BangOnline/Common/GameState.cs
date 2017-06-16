@@ -84,11 +84,17 @@ namespace BangOnline.Common
             client.SetCards(cardPicker.PopFirstElement(numberOfCard));
         }
 
-        public void DiscardCard(int id, int index)
+        public void DiscardCard(int id, int indexCard = -1, int indexEquipment = -1)
         {
-            Client client = clients[id];
-            if (client.cards.Count == 0) return;
-            discardCard.Add(client.cards.PopElement(index));
+            Client target = clients[id];
+            if(indexCard != -1)
+            {
+                discardCard.Add(target.cards.PopElement(indexCard));
+            }
+            if(indexEquipment != -1)
+            {
+                discardCard.Add(target.equipments.PopElement(indexEquipment));
+            }
         }
 
         public int NextPlayer()
@@ -228,12 +234,19 @@ namespace BangOnline.Common
                 aid = a.ID;
                 bid = b.ID;
             }
-            else
+            else if(indexTarget != -1)
             {
                 aid = b.ID;
                 bid = a.ID;
             }
+<<<<<<< HEAD
             return Math.Min(bid - aid, clients.Count - bid + aid);
+=======
+            else
+            {
+                cards[indexCard].Run(new object[] { id, indexTarget, targetCard });
+            }
+>>>>>>> master
         }
 
         #region Infos

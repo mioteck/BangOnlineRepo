@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 public interface IRunning
 {
-    void Run(List<int> targets);
+    bool Run(object obj);
 }

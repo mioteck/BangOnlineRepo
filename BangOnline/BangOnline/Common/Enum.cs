@@ -64,5 +64,6 @@ public enum Command
     EndTurn,
     PlayCard,
     PlayersInfo,
-    PlayerInfo
+    PlayerInfo,
+    isTurn
 }

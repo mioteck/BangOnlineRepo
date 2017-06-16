@@ -40,15 +40,14 @@ namespace BangServer
             waitingSaloon = new Thread(WaitingSaloon);
             listenMJ = new Thread(ListenMJ);
 
-            waitingSaloon.Start(); // For build
+            waitingSaloon.Start();
 
             /***** Test *****/
-
             clients.Add(new Client());
             clients.Add(new Client());
             clients.Add(new Client());
-
-            InitializeParty();
+            clients.Add(new Client());
+            //InitializeParty();
 
             /*** END TEST ***/
         }
@@ -122,7 +121,7 @@ namespace BangServer
                     client.SendMessage(new DataToSend(myIP, Command.StringToDraw, "Vous êtes déjà connecté au serveur !"));
                 }
 
-                if (clients.Count >= 4 && !listenMJ.IsAlive)
+                if (clients.Count >= 2 && !listenMJ.IsAlive)
                 {
                     listenMJ.Start();
                 }
@@ -144,7 +143,7 @@ namespace BangServer
             Client client = clients[clients.Count - 1]; // FOR TEST
             Console.WriteLine("Actually listenning the client " + client.ID);
             SendMessage(client.ID, new DataToSend(myIP, Command.StringToDraw, "Il y a plusieurs joueurs de connecté"));
-            InitializeParty(); //HERE FOR TEST? TO REMOVE FOR BUILD
+            InitializeParty(); //HERE FOR TEST TO REMOVE FOR BUILD
             while (true)
             {
                 byte[] bytes = client.ReceiveMessage(DataToSend.bufferSize); // Peut être source de problème à check
@@ -158,6 +157,7 @@ namespace BangServer
         static void Dispatcher(DataToSend data)
         {
             int clientID = clients.GetIDByIp(data.ipAddr);
+            Console.WriteLine("Client " + clientID + " ( " + data.ipAddr + " ) : Commande -> " + data.command.ToString());
             if (data.command == Command.NbPlayer)
             {
                 SendMessage(clientID, new DataToSend(myIP, Command.NbPlayer, clients.Count));
@@ -184,7 +184,10 @@ namespace BangServer
             }
             else if (data.command == Command.PlayCard)
             {
-                int indexCard = (int)data.data;
+                object[] parameters = (object[])data.data; 
+                int indexCard = (int)parameters[0];
+                int indexTarget = (int)parameters[1];
+                gameState.PlayCard(clientID, indexCard, indexTarget);
             }
             else if(data.command == Command.PlayerInfo)
             {
@@ -309,6 +312,8 @@ namespace BangServer
 
         static void InitializeParty()
         {
+            //waitingSaloon.Abort();
+
             #region Initialization Card
             Deck<Card> cards = InitializeCard();
             #endregion
@@ -352,13 +357,10 @@ namespace BangServer
             gameState = new GameState(clients, cards);
             #endregion
 
-            #region Send GameState to all players
-            //SendMessageToAll(gameState);
-            #endregion
-
             #region Start GameLoop
             gameLoop = new Thread(GameLoop);
-            gameLoop.Start();
+            //gameLoop.Start();
+            //listenMJ.Abort();
             #endregion
         }
         #endregion

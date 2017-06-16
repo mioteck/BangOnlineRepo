@@ -1,16 +1,12 @@
 ﻿using BangOnline.Common;
 using System;
+using System.Collections.Generic;
 
 namespace BangOnline.Cards
 {
-    public class Draw : Effect, IRunning
+    public class Draw : Effect
     {
         public Draw(string n, Couleur c, Value v, Cible cc, string d, int p) : base(n, c, v, cc, d, p) { }
-
-        public void Run()
-        {
-            throw new NotImplementedException();
-        }
 
         public string[] BaseInfo()
         {
@@ -38,6 +34,14 @@ namespace BangOnline.Cards
             //data[5] = desc;
 
             return data;
+        }
+
+        public override bool Run(object obj)
+        {
+            GameState state = GameState.instance;
+            int index = (int)obj;
+            state.Draw(index, 3);
+            return true;
         }
     }
 }

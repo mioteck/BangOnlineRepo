@@ -8,6 +8,8 @@ namespace BangOnline.Common
 {
     public class GameState
     {
+        public static GameState instance;
+
         public Deck<Client> clients;
 
         public Deck<Card> cardPicker;
@@ -66,6 +68,8 @@ namespace BangOnline.Common
                     break;
                 }
             }
+
+            instance = this;
         }
 
         public void Draw(int id, int numberOfCard)
@@ -173,6 +177,39 @@ namespace BangOnline.Common
             return Role.None;
         }
 
+        public bool GainHP(int index)
+        {
+            Character c = clients[index].character;   
+            if(c.currentLife >= c.maxLife)
+            {
+                return false;
+            }
+            c.currentLife++;
+            return true;
+        }
+
+        public bool LooseHP(int index)
+        {
+            if(clients[index].isAlive)
+            {
+                clients[index].character.currentLife--;
+                return true;
+            }
+            return false;
+        }
+
+        public void PlayCard(int id, int indexCard, int indexTarget)
+        {
+            Deck<Card> cards = clients[id].cards;
+            if(indexTarget == -1)
+            {
+                cards[indexCard].Run(id);
+            }
+            else
+            {
+                cards[indexCard].Run(new object[] { id, indexTarget });
+            }
+        }
 
         #region Infos
         public string GetPlayersInfo()

@@ -1,8 +1,10 @@
 ﻿using BangOnline.Common;
+using System.Collections.Generic;
+using System;
 
 namespace BangOnline.Cards
 {
-    public class Card: IArrayString
+    public class Card: IArrayString, IRunning
     {
         public string nom;
         public Couleur couleur;
@@ -49,5 +51,7 @@ namespace BangOnline.Cards
         {
             return desc;
         }
+
+        public virtual bool Run(object obj) { return true; }
     }
 }

@@ -1,15 +1,18 @@
 ﻿using BangOnline.Common;
 using System;
+using System.Collections.Generic;
 
 namespace BangOnline.Cards
 {
-    public class Heal : Effect, IRunning
+    public class Heal : Effect
     {
         public Heal(string n, Couleur c, Value v, Cible cc, string d, int p) : base(n, c, v, cc, d, p) { }
 
-        public void Run()
+        public override bool Run(object obj)
         {
-            throw new NotImplementedException();
+            GameState state = GameState.instance;
+            int index = (int)obj;
+            return state.GainHP(index);
         }
 
         public string[] BaseInfo()

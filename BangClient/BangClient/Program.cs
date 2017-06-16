@@ -23,8 +23,9 @@ namespace BangClient
              int portToConnect = int.Parse(Console.ReadLine());
 
              client = new TcpClient(ipToConnect, portToConnect);*/
-            //client = new TcpClient("192.168.1.68", 1337);
-            client = new TcpClient("10.33.3.209", 1337);
+            client = new TcpClient("192.168.1.68", 1337);
+            //client = new TcpClient("10.33.3.209", 1337);
+            //client = new TcpClient("192.168.0.239", 1337);
 
             stream = client.GetStream();
 
@@ -85,7 +86,10 @@ namespace BangClient
                 Console.WriteLine((string)data.data);
                 CloseStream();
             }
-            
+            else if(data.command == Command.isTurn)
+            {
+                sendData.Start();
+            }
         }
 
         static void DispatcherSend(string command)
@@ -105,15 +109,18 @@ namespace BangClient
             else if (command == @"\EndTurn")
             {
                 DataToSend.SendData(myIpAdress, Command.EndTurn, null, stream);
+                sendData.Abort();
             }
             else if (command.Contains(@"\PlayCard"))
             {
                 string[] split = command.Split(' ');
                 int indexCard = -1;
-                bool isOk = int.TryParse(split[1], out indexCard);
-                if (isOk)
+                bool isOk1 = int.TryParse(split[1], out indexCard);
+                int indexTarget = -1;
+                bool isOk2 = int.TryParse(split[2], out indexTarget);
+                if (isOk1)
                 {
-                    DataToSend.SendData(myIpAdress, Command.PlayCard, indexCard, stream);
+                    DataToSend.SendData(myIpAdress, Command.PlayCard, new object[] { indexCard, indexTarget }, stream);
                 }
                 else
                 {

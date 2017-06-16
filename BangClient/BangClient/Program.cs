@@ -80,6 +80,11 @@ namespace BangClient
             else if(data.command == Command.StringToDraw)
             {
                 Console.WriteLine((string)data.data);
+                string str = (string)data.data;
+                if(str.Contains("votre tour"))
+                {
+                    sendData.Start();
+                }
             }
             else if(data.command == Command.Quit)
             {

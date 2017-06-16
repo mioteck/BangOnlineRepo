@@ -336,6 +336,10 @@ namespace BangServer
 
             #region Assign Role
             int numberPlayer = clients.Count;
+            if(numberPlayer == 2)
+            {
+                AssignRole(numberPlayer, 1, 0, 0, 1);
+            }
             if (numberPlayer == 4)
             {
                 AssignRole(numberPlayer, 1, 0, 1, 2);
@@ -413,6 +417,7 @@ namespace BangServer
                 #endregion
 
                 Client currentPlayer = gameState.currentPlayer;
+                SendMessage(currentPlayer.ID, new DataToSend(myIP, Command.StringToDraw, "C'est votre tour !"));
                 byte[] bytes = currentPlayer.ReceiveMessage(DataToSend.bufferSize);
                 if(bytes.Length == 0)
                 {

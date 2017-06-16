@@ -17,12 +17,12 @@ namespace BangClient
 
         static void Main(string[] args)
         {
-             Console.Write("Adresse Ip du serveur : ");
-             string ipToConnect = Console.ReadLine();
-             Console.Write("Port du serveur : ");
-             int portToConnect = int.Parse(Console.ReadLine());
+            Console.Write("Adresse Ip du serveur : ");
+            string ipToConnect = Console.ReadLine();
+            Console.Write("Port du serveur : ");
+            int portToConnect = int.Parse(Console.ReadLine());
 
-             client = new TcpClient(ipToConnect, portToConnect);
+            client = new TcpClient(ipToConnect, portToConnect);
             //client = new TcpClient("192.168.1.68", 1337);
             //client = new TcpClient("10.33.3.209", 1337);
             //client = new TcpClient("192.168.0.239", 1337);
@@ -49,7 +49,7 @@ namespace BangClient
 
         static void SendData()
         {
-            while(true)
+            while (true)
             {
                 string command = Console.ReadLine();
                 if (string.IsNullOrEmpty(command)) continue;
@@ -59,7 +59,7 @@ namespace BangClient
 
         static void WaitingData()
         {
-            while(true)
+            while (true)
             {
                 byte[] bytes = new byte[DataToSend.bufferSize];
                 int result = stream.Read(bytes, 0, bytes.Length);
@@ -72,26 +72,27 @@ namespace BangClient
         #region Dispatcher
         static void DispatcherReceive(DataToSend data)
         {
-            if(data.command == Command.NbPlayer)
+            if (data.command == Command.NbPlayer)
             {
                 int nbPlayer = (int)data.data;
                 Console.WriteLine("Il y a " + nbPlayer + " joueurs dans la partie");
             }
-            else if(data.command == Command.StringToDraw)
+            else if (data.command == Command.StringToDraw)
             {
                 Console.WriteLine((string)data.data);
                 string str = (string)data.data;
-                if(str.Contains("votre tour"))
+                if (str.Contains("votre tour"))
                 {
-                    sendData.Start();
+                    if (!sendData.IsAlive)
+                        sendData.Start();
                 }
             }
-            else if(data.command == Command.Quit)
+            else if (data.command == Command.Quit)
             {
                 Console.WriteLine((string)data.data);
                 CloseStream();
             }
-            else if(data.command == Command.isTurn)
+            else if (data.command == Command.isTurn)
             {
                 sendData.Start();
             }

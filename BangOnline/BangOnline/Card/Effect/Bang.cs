@@ -25,9 +25,29 @@ namespace BangOnline.Cards
 
         public override bool Run(object obj)
         {
+            object[] parameters = (object[])obj;
+            int playerID = (int)parameters[0];
+            int targetID = (int)parameters[1];
+
             GameState state = GameState.instance;
-            int index = (int)obj;
-            return state.GainHP(index);
+            Client player = state.clients[playerID];
+            int porteeP = player.portee;
+
+            Client target = state.clients[targetID];
+
+            if (state.Distance(player, target) > porteeP)
+                return false;
+
+            foreach(Card c in target.cards)
+            {
+                if(c.nom == "Miss")
+                {
+                    state.DiscardCard(target.ID, target.cards.IndexOf(c));
+                    return false;
+                }
+            }
+            state.LooseHP(target.ID);
+            return true;
         }
 
         public string[] ToArrayString(bool hideInformation = true)

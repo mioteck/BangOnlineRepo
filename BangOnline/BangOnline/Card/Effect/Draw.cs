@@ -40,7 +40,7 @@ namespace BangOnline.Cards
         {
             GameState state = GameState.instance;
             int index = (int)obj;
-            state.Draw(index, 3);
+            state.Draw(index, 2);
             return true;
         }
     }

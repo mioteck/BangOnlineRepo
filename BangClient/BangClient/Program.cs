@@ -17,13 +17,13 @@ namespace BangClient
 
         static void Main(string[] args)
         {
-            /* Console.Write("Adresse Ip du serveur : ");
+             Console.Write("Adresse Ip du serveur : ");
              string ipToConnect = Console.ReadLine();
              Console.Write("Port du serveur : ");
              int portToConnect = int.Parse(Console.ReadLine());
 
-             client = new TcpClient(ipToConnect, portToConnect);*/
-            client = new TcpClient("192.168.1.68", 1337);
+             client = new TcpClient(ipToConnect, portToConnect);
+            //client = new TcpClient("192.168.1.68", 1337);
             //client = new TcpClient("10.33.3.209", 1337);
             //client = new TcpClient("192.168.0.239", 1337);
 

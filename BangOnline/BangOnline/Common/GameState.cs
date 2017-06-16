@@ -163,13 +163,13 @@ namespace BangOnline.Common
                     isVictoryRenegat = false;
                 }
             }
-            if(isVictoryRenegat && horslaloi.Where(x => x.isAlive == true).Count() >= 1)
+            if(isVictoryRenegat && renegats.Where(x => x.isAlive == true).Count() == 1)
             {
                 return Role.Renegat;
             }
 
             // Victoire Hors la loi
-            if(!sherif.isAlive && horslaloi.Where(x => x.isAlive == true).Count() >= 1)
+            if(!sherif.isAlive)
             {
                 return Role.HorsLaLoi;
             }
@@ -198,17 +198,42 @@ namespace BangOnline.Common
             return false;
         }
 
-        public void PlayCard(int id, int indexCard, int indexTarget)
+        public void PlayCard(int id, int indexCard, int indexTarget, string targetCard = "")
         {
             Deck<Card> cards = clients[id].cards;
+            bool isOK;
             if(indexTarget == -1)
             {
-                cards[indexCard].Run(id);
+                isOK = cards[indexCard].Run(id);
+            }
+            else if(indexTarget != -1)
+            {
+                isOK = cards[indexCard].Run(new object[] { id, indexTarget });
             }
             else
             {
-                cards[indexCard].Run(new object[] { id, indexTarget });
+                isOK = cards[indexCard].Run(new object[] { id, indexTarget, targetCard });
             }
+            if(isOK)
+            {
+                DiscardCard(id, indexCard);
+            }
+        }
+
+        public int Distance(Client a, Client b)
+        {
+            int aid, bid;
+            if(a.ID < b.ID)
+            {
+                aid = a.ID;
+                bid = b.ID;
+            }
+            else
+            {
+                aid = b.ID;
+                bid = a.ID;
+            }
+            return Math.Min(bid - aid, clients.Count - bid + aid);
         }
 
         #region Infos

@@ -23,6 +23,9 @@ namespace BangServer
         static GameState gameState;
 
         static string myIP;
+
+        static bool isOkListenMJ = true;
+        static bool isOkListen = true;
         
         static void Main(string[] args)
         {
@@ -43,10 +46,10 @@ namespace BangServer
             waitingSaloon.Start();
 
             /***** Test *****/
+            /*clients.Add(new Client());
             clients.Add(new Client());
             clients.Add(new Client());
-            clients.Add(new Client());
-            clients.Add(new Client());
+            clients.Add(new Client());*/
             //InitializeParty();
 
             /*** END TEST ***/
@@ -95,7 +98,7 @@ namespace BangServer
         #region Saloon
         static void WaitingSaloon()
         {
-            while (true)
+            while (isOkListen)
             {
                 TcpClient TcpClient = server.AcceptTcpClient();
 
@@ -121,11 +124,15 @@ namespace BangServer
                     client.SendMessage(new DataToSend(myIP, Command.StringToDraw, "Vous êtes déjà connecté au serveur !"));
                 }
 
-                if (clients.Count >= 2 && !listenMJ.IsAlive)
+                /*if (clients.Count >= 2 && !listenMJ.IsAlive)
                 {
                     listenMJ.Start();
                 }
                 if (clients.Count == 7)
+                {
+                    InitializeParty();
+                }*/
+                if(clients.Count == 2)
                 {
                     InitializeParty();
                 }
@@ -139,12 +146,12 @@ namespace BangServer
                 Console.WriteLine("!!! Il n'y a aucun joueur de connecté !!!");
                 return;
             }
-            //Client client = clients[0]; // FOR BUILD
-            Client client = clients[clients.Count - 1]; // FOR TEST
+            Client client = clients[0]; // FOR BUILD
+            //Client client = clients[clients.Count - 1]; // FOR TEST
             Console.WriteLine("Actually listenning the client " + client.ID);
             SendMessage(client.ID, new DataToSend(myIP, Command.StringToDraw, "Il y a plusieurs joueurs de connecté"));
-            InitializeParty(); //HERE FOR TEST TO REMOVE FOR BUILD
-            while (true)
+            //InitializeParty(); //HERE FOR TEST TO REMOVE FOR BUILD
+            while (isOkListenMJ)
             {
                 byte[] bytes = client.ReceiveMessage(DataToSend.bufferSize); // Peut être source de problème à check
                 if (bytes.Length == 0) continue;
@@ -171,12 +178,12 @@ namespace BangServer
             {
                 SendMessage(clientID, new DataToSend(myIP, Command.Quit, "Vous avez quitté la partie !"));
                 if (listenMJ.IsAlive)
-                    listenMJ.Abort();
+                    isOkListenMJ = false;
                 clients.RemoveAt(clientID);
                 if (!listenMJ.IsAlive)
-                    listenMJ.Start();
+                    isOkListenMJ = true;
 
-                //SendMessageToAll("Le client " + clientID + " vient de quitter la partie"); // To uncomment for build
+                SendMessageToAll("Le client " + clientID + " vient de quitter la partie"); // To uncomment for build
             }
             else if (data.command == Command.EndTurn)
             {
@@ -187,7 +194,8 @@ namespace BangServer
                 object[] parameters = (object[])data.data; 
                 int indexCard = (int)parameters[0];
                 int indexTarget = (int)parameters[1];
-                gameState.PlayCard(clientID, indexCard, indexTarget);
+                string targetCard = (string)parameters[2];
+                gameState.PlayCard(clientID, indexCard, indexTarget, targetCard);
             }
             else if(data.command == Command.PlayerInfo)
             {
@@ -312,7 +320,7 @@ namespace BangServer
 
         static void InitializeParty()
         {
-            //waitingSaloon.Abort();
+            isOkListen = false;
 
             #region Initialization Card
             Deck<Card> cards = InitializeCard();
@@ -359,8 +367,8 @@ namespace BangServer
 
             #region Start GameLoop
             gameLoop = new Thread(GameLoop);
-            //gameLoop.Start();
-            //listenMJ.Abort();
+            gameLoop.Start();
+            isOkListenMJ = false;
             #endregion
         }
         #endregion

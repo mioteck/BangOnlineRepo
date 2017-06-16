@@ -38,9 +38,25 @@ namespace BangOnline.Cards
 
         public override bool Run(object obj)
         {
+            object[] parameters = (object[])obj;
+            int playerID = (int)parameters[0];
+            int targetID = (int)parameters[1];
+
             GameState state = GameState.instance;
-            int index = (int)obj;
-            return state.GainHP(index);
+
+            Client target = state.clients[targetID];
+
+            foreach(Card c in target.cards)
+            {
+                if(c.nom == "Bang")
+                {
+                    state.DiscardCard(target.ID, target.cards.IndexOf(c));
+                    this.Run(new object[] { targetID, playerID });
+                    return true;
+                }
+            }
+            state.LooseHP(target.ID);
+            return true;
         }
     }
 }

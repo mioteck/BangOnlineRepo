@@ -24,7 +24,32 @@ namespace BangOnline.Cards
 
         public override bool Run(object obj)
         {
-            return true;
+            object[] parameters = (object[])obj;
+            int idPLayer = (int)parameters[0];
+            int idTarget = (int)parameters[1];
+            string targetCard = (string)parameters[2];
+            int targetCardInt = -1;
+            GameState state = GameState.instance;
+            bool inHand = int.TryParse(targetCard, out targetCardInt);
+            if(inHand && targetCardInt < state.clients[idTarget].cards.Count)
+            {
+                //discard dans la main du joueur
+                state.DiscardCard(idTarget, targetCardInt);
+                return true;
+            }
+            else
+            {
+                foreach(Equipment eq in state.clients[idTarget].equipments)
+                {
+                    if (targetCard.Equals(eq.nom))
+                    {
+                        //discard dans les equipements
+                        state.DiscardCard(idTarget, indexEquipment : state.clients[idTarget].equipments.IndexOf(eq));
+                        return true;
+                    }
+                }
+            }             
+            return false;
         }
 
         public string[] ToArrayString(bool hideInformation = true)

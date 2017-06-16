@@ -84,11 +84,17 @@ namespace BangOnline.Common
             client.SetCards(cardPicker.PopFirstElement(numberOfCard));
         }
 
-        public void DiscardCard(int id, int index)
+        public void DiscardCard(int id, int indexCard = -1, int indexEquipment = -1)
         {
-            Client client = clients[id];
-            if (client.cards.Count == 0) return;
-            discardCard.Add(client.cards.PopElement(index));
+            Client target = clients[id];
+            if(indexCard != -1)
+            {
+                discardCard.Add(target.cards.PopElement(indexCard));
+            }
+            if(indexEquipment != -1)
+            {
+                discardCard.Add(target.equipments.PopElement(indexEquipment));
+            }
         }
 
         public int NextPlayer()
@@ -198,16 +204,20 @@ namespace BangOnline.Common
             return false;
         }
 
-        public void PlayCard(int id, int indexCard, int indexTarget)
+        public void PlayCard(int id, int indexCard, int indexTarget, string targetCard = "")
         {
             Deck<Card> cards = clients[id].cards;
             if(indexTarget == -1)
             {
                 cards[indexCard].Run(id);
             }
-            else
+            else if(indexTarget != -1)
             {
                 cards[indexCard].Run(new object[] { id, indexTarget });
+            }
+            else
+            {
+                cards[indexCard].Run(new object[] { id, indexTarget, targetCard });
             }
         }
 

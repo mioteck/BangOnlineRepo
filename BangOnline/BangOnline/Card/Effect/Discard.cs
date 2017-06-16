@@ -24,7 +24,6 @@ namespace BangOnline.Cards
 
         public override bool Run(object obj)
         {
-            return true;
             object[] parameters = (object[])obj;
             int idPLayer = (int)parameters[0];
             int idTarget = (int)parameters[1];

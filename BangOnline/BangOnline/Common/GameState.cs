@@ -234,19 +234,13 @@ namespace BangOnline.Common
                 aid = a.ID;
                 bid = b.ID;
             }
-            else if(indexTarget != -1)
+            else
             {
                 aid = b.ID;
                 bid = a.ID;
             }
-<<<<<<< HEAD
             return Math.Min(bid - aid, clients.Count - bid + aid);
-=======
-            else
-            {
-                cards[indexCard].Run(new object[] { id, indexTarget, targetCard });
-            }
->>>>>>> master
+
         }
 
         #region Infos
